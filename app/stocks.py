@@ -2,14 +2,20 @@ import streamlit as st
 import concurrent.futures
 import yfinance as yf
 import pandas as pd
-import ta  # Technical Analysis library
+import ta  
 import time
 import plotly.express as px
 import plotly.graph_objects as go
 
-# Function to fetch stock data
+
+
 def fetch_stock_data(ticker):
-    """Fetch real-time stock data along with technical indicators."""
+    """Fetch real-time stock data along with technical indicators.
+    Parameters:
+        ticker (str): Stock ticker symbol.
+    Returns:
+        pd.DataFrame: Stock data with technical indicators. 
+    """
     try:
         stock = yf.Ticker(ticker)
         data = stock.history(period="6mo")  # Fetch last 6 months of data
@@ -26,8 +32,15 @@ def fetch_stock_data(ticker):
     except Exception as e:
         return None
 
-# Function to fetch multiple stocks in parallel
+
 def fetch_multiple_stocks(tickers, max_attempts=3):
+    """Fetch multiple stocks in parallel using threads.
+    Parameters:
+        tickers (list): List of stock tickers.
+        max_attempts (int): Maximum number of attempts to fetch the data.
+    Returns:
+        dict: Dictionary containing stock data for each ticker.
+    """
     stock_data = {}
 
     for attempt in range(max_attempts):
@@ -47,12 +60,20 @@ def fetch_multiple_stocks(tickers, max_attempts=3):
     return {}
 
 def load_stock_tickers(file_path):
+    """Load stock tickers and company names from a local CSV file.
+    Parameters:
+        file_path (str): Path to the CSV file.
+    Returns:
+        pd.DataFrame: DataFrame containing stock tickers and company names.
+    """
     try:
         df = pd.read_csv(file_path)
         return df[["ACT Symbol", "Company Name"]].rename(columns={"ACT Symbol": "Ticker", "Company Name": "Company"})
     except Exception as e:
         return None
 
+# Streamlit App
+st.set_page_config(page_title="Stock Market Tracker", page_icon="📈", layout="wide")
 # Streamlit Sidebar Navigation
 st.sidebar.title("📌 Navigation")
 page = st.sidebar.radio("Go to", ["Stock Tracker", "Stock Tickers"])
@@ -106,14 +127,8 @@ elif page == "Stock Tickers":
     st.write("Loading stock tickers from local CSV file...")
 
     # Load the stock tickers from the local CSV file
-    df_tickers = load_stock_tickers("data/nyse.csv")  # Ensure 'nyse.csv' is in the same directory or provide the correct path
+    df_tickers = load_stock_tickers("data/nyse.csv")  
     if df_tickers is not None:
         st.dataframe(df_tickers)
     else:
         st.error("Failed to load stock ticker data. Please ensure the 'nyse.csv' file is available.")
-
-
-
-
-
-

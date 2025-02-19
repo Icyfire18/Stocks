@@ -62,7 +62,7 @@ The application provides three types of charts for each stock:
 ├── data/
 │   └── nyse.csv          # NYSE stock data
 ├── notebooks/
-│   └── Stocks.ipynb      # NYSE stock data
+│   └── Stocks.ipynb      # Playground
 └── README.md             # This file
 ```
 
