@@ -13,6 +13,7 @@ A real-time stock market tracking application built with Streamlit that provides
 - Interactive charts using Plotly
 - Stock ticker lookup functionality
 - Dark-themed visualization
+- **Download stock data as CSV**
 
 ## Prerequisites
 
@@ -40,7 +41,7 @@ pip install streamlit yfinance pandas ta plotly
 
 1. Start the Streamlit application:
 ```bash
-streamlit run app.py
+streamlit run app/stocks.py
 ```
 
 2. The application has two main pages:
@@ -53,6 +54,8 @@ The application provides three types of charts for each stock:
 1. Price chart with SMA and EMA indicators
 2. Volume bar chart
 3. RSI indicator with overbought/oversold levels
+
+Additionally, users can **download stock data as a CSV file** for further analysis.
 
 ## File Structure
 
